@@ -1,0 +1,64 @@
+Soal 1 - MySQL World Database
+
+1. 
+SELECT * 
+FROM city 
+WHERE CountryCode = 'IDN' 
+ORDER BY Population DESC 
+LIMIT 10;
+
+2.
+SELECT * FROM city 
+ORDER BY Population DESC 
+LIMIT 10;
+
+3.
+SELECT Code, Name, Continent, Region, IndepYear 
+FROM country
+WHERE IndepYear != 'NULL'
+ORDER BY IndepYear ASC
+LIMIT 10;
+
+4.
+SELECT continent AS benua, COUNT(continent) AS jumlah_negara, SUM(population) AS populasi, AVG(LifeExpectancy) AS Rata_AngkaHrpnHdp
+FROM country
+GROUP by continent
+HAVING count(*) > 10
+ORDER BY populasi DESC;
+
+5.* urutan kolom
+SELECT Name, Continent, LifeExpectancy, GNP
+FROM country
+WHERE Continent = 'Asia
+ORDER BY LifeExpectancy DESC
+LIMIT 10;
+
+6.
+SELECT countrylanguage.*, country.name
+FROM countrylanguage
+JOIN country ON countrylanguage.CountryCode = country.Code
+WHERE Language = 'English' and IsOfficial = 'T'
+ORDER BY percentage DESC
+LIMIT 10;
+
+7.
+# buat tabel ibukota tiap negara
+create table Ibukota_Negara as
+select * from city
+group by CountryCode;
+
+# querry anggota ASEAN
+SELECT country.Name as 'Negara_ASEAN', country.Population, country.GNP, 
+Ibukota_Negara.Name as Ibukota, Ibukota_Negara.Population as Populasi_Ibukota
+FROM country
+JOIN Ibukota_Negara ON country.Code = Ibukota_Negara.CountryCode
+WHERE country.Name IN ('Brunei', 'Cambodia', 'East Timor', 'Indonesia', 'Laos', 'Malaysia', 'Myanmar', 'Philippines', 'Singapore', 'Thailand', 'Vietnam')
+ORDER BY country.Name;
+
+8.
+SELECT country.Name as 'Negara_G20', country.Population, country.GNP, 
+Ibukota_Negara.Name as Ibukota, Ibukota_Negara.Population as Populasi_Ibukota
+FROM country
+JOIN Ibukota_Negara ON country.Code = Ibukota_Negara.CountryCode
+WHERE country.Name IN ('Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'France', 'Germany', 'India', 'Indonesia', 'Japan', 'Mexico', 'Russian Federation', 'Saudi Arabia', 'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States')
+ORDER BY country.Name;
